@@ -20,6 +20,7 @@ export default async function handler(
   }
 
   const link = req.body as LinkEdge;
+  console.log(link.timestamp);
   // check if link conforms to schema
   if (!link.userId1 || !link.userId2 || !link.timestamp || !link.location) {
     // 400: Bad Request

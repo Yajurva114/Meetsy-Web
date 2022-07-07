@@ -34,10 +34,9 @@ export default async function handler(
   try {
     await session.writeTransaction(tx =>
       tx.run(
-        `MATCH (u:User {userId: $userId})
-         MATCH (u)-[r:USES]->(:Platform {name: $name})
+        `MATCH (:User {userId: $userId})-[r:USES]->(:Platform {name: $name})
          SET r.username = $username`,
-        { userId: update.userId, username: update.username, platform: update.platform }
+        { userId: update.userId, username: update.username, name: update.platform }
       )
     );
 

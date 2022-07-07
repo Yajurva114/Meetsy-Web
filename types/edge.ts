@@ -7,7 +7,7 @@ interface LinkEdge {
 
 interface AccountEdge {
   userId: string;
-  platformName: string;
+  platform: string;
   username: string;
 }
 
