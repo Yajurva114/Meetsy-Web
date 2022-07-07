@@ -1,12 +1,52 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import session from '../../../neo4j';
 
-type Data = {
-  name: string
+type UpdateObj = {
+  userId: string,
+  username: string,
+  platform: string,
 }
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  
+  const { API_TOKEN } = req.query;
+
+  if (API_TOKEN !== process.env.API_TOKEN) {
+    // 401: Unauthorized
+    return res.status(401).end();
+  }
+
+  if (req.method !== 'PATCH') {
+    // 405: Method Not Allowed
+    return res.status(405).end();
+  }
+
+  const update = req.body as UpdateObj;
+  // check if update conforms to schema
+  if (!update.userId || !update.username || !update.platform) {
+    // 400: Bad Request
+    return res.status(400).end();
+  }
+
+  try {
+    await session.writeTransaction(tx =>
+      tx.run(
+        `MATCH (u:User {userId: $userId})
+         MATCH (u)-[r:USES]->(:Platform {name: $name})
+         SET r.username = $username`,
+        { userId: update.userId, username: update.username, platform: update.platform }
+      )
+    );
+
+    // 204: No Content Returned
+    res.status(204).end();
+  }
+  catch (err) {
+    // 500: Internal Server Error
+    res.status(500).end();
+  }
+
 }

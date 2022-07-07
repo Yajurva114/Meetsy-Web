@@ -1,16 +1,13 @@
-import type { PlatformNode, UserNode } from './node';
-
 interface LinkEdge {
-  user1: UserNode;
-  user2: UserNode;
+  userId1: string;
+  userId2: string;
   timestamp: number;
-  // tentative property
-  location: string | null;
+  location: string;
 }
 
 interface AccountEdge {
-  user: UserNode;
-  platform: PlatformNode;
+  userId: string;
+  platformName: string;
   username: string;
 }
 

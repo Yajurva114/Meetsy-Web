@@ -1,6 +1,6 @@
 interface UserNode {
   name: string;
-  username: string;
+  userId: string;
   links: number;
 }
 
