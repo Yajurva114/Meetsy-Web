@@ -42,8 +42,8 @@ export default async function handler(
     // create array of account + platform objects
     for (let i = 0; i < result.records.length; i++) {
       socials.push({
-        ... result.records[i].get('account').properties,
-        platformName: result.records[i].get('p').properties.name
+        username: result.records[i].get('account').properties.username,
+        platform: result.records[i].get('p').properties.name
       });
     }
   

@@ -1,3 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
 @tailwind base;
+
+@layer base {
+  html {
+    font-family: 'Poppins', sans-serif;
+  }
+  h1 {
+    @apply text-2xl font-light tracking-wide leading-8;
+  }
+  h2 {
+    @apply text-lg font-light tracking-wide leading-8;
+  }
+  p {
+    @apply text-base font-light tracking-wide leading-8;
+  }
+  ::-webkit-scrollbar {
+    @apply w-0
+  }
+}
+
 @tailwind components;
 @tailwind utilities;

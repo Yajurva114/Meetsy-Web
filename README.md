@@ -1,34 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and written in Typescript.
 
-## Getting Started
+# Link
 
-First, run the development server:
+Link is a social networking platform enabling users to share their internet presence instantly. The website offers dynamic endpoints enabling Link's functionality. Every user has his/her unique link address given by https://link-topaz.vercel.app/{_id} where the _id is a unique parameter determined by MongoDB (stored as a object of class ObjectId in the database).
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+### Architecture:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+We have opted for a full stack framework (Nextjs) offering support for both our limited frontend and API. The website will be hosted on a dynamic IP Address. It will be connected to a NoSQL database - MongoDB, running on MongoDB Atlas, a cloud service.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Deployed on Vercel
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Link is currently hosted on a hobby account, free of charge.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Link's API
 
-## Learn More
+Our API acts as a middleman for both our fontend and IOS App by communicating directly with the MongoDB database.
 
-To learn more about Next.js, take a look at the following resources:
+### Endpoints:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+All endpoints are protected by an api token, stored as a environment variable. Every request must contain the token for authorization. Some requests also require a user id and a body.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- https://link-topaz.vercel.app/api/{_id} : Read and write access to all the users in the MongoDB database.
+  - Methods: GET, POST, and PATCH.
+- https://link-topaz.vercel.app/api/revalidate : Generates static profile pages on demand.
 
-## Deploy on Vercel
+#### https://link-topaz.vercel.app/api/{_id}?secret={API_TOKEN}
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- GET Method: Requires user id and returns a user object.
+- POST Method: Requires a user object in the body and returns a user id.
+- PATCH Method: Requires a user id and an updates object in the body
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### https://link-topaz.vercel.app/api/revalidate?secret={API_TOKEN}&userId={ObjectId}
+
+- Any Method: Requires user id and returns a JSON obj (success / failure)
