@@ -32,15 +32,23 @@ export default async function handler(
       )
     );
 
-    // more than one record impossible due to userId constraint
-    // therefore only check if user requested does not exist
+    // check if user has not made any accounts
     if (result.records.length === 0) {
       // 404: Resource Not Found
       return res.status(404).end();
     }
+
+    const socials = [];
+    // create array of account + platform objects
+    for (let i = 0; i < result.records.length; i++) {
+      socials.push({
+        ... result.records[i].get('account').properties,
+        platformName: result.records[i].get('p').properties.name
+      });
+    }
   
     // 200: OK
-    res.status(200).json(result.records[0].get('u').properties);
+    res.status(200).json(socials);
   }
   catch (err) {
     // 500: Internal Server Error

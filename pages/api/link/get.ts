@@ -32,15 +32,23 @@ export default async function handler(
       )
     );
 
-    // more than one record impossible due to userId constraint
-    // therefore only check if user requested does not exist
+    // check if user has not made any links
     if (result.records.length === 0) {
       // 404: Resource Not Found
       return res.status(404).end();
     }
+
+    const links = [];
+    // create array of link + user objects
+    for (let i = 0; i < result.records.length; i++) {
+      links.push({
+        ... result.records[i].get('link').properties,
+        ... result.records[i].get('user').properties
+      });
+    }
   
     // 200: OK
-    res.status(200).json(result);
+    res.status(200).json(links);
   }
   catch (err) {
     // 500: Internal Server Error
