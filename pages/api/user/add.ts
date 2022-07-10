@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import session from '../../../neo4j'
+import driver from '../../../neo4j'
 import { UserNode } from '../../../types/node';
 
 export default async function handler(
@@ -26,6 +26,9 @@ export default async function handler(
     return res.status(400).end();
   }
 
+  // create neo4j session
+  const session = driver.session();
+
   try {
     await session.writeTransaction(tx =>
       tx.run(
@@ -36,10 +39,14 @@ export default async function handler(
 
     // 201: Resource Created
     res.status(201).end();
+    // close session after transaction
+    await session.close();
   }
   catch (err) {
     // 500: Internal Server Error
     res.status(500).end();
+    // close session after error
+    await session.close();
   }
 
 }

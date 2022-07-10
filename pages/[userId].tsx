@@ -7,10 +7,11 @@ import Error from '../components/error';
 import Shelf from '../components/shelf';
 import { UserNode } from '../types/node';
 import { AccountEdge } from '../types/edge';
-import session from '../neo4j'
+import driver from '../neo4j'
 
 type Props = {
-  user: UserNode | null;
+  error: number;
+  user: UserNode;
   socials: AccountEdge[];
 }
 
@@ -28,10 +29,12 @@ function getAccount(account: AccountEdge): JSX.Element {
  * @param {Props} props - The props passed to the component.
  * @returns {JSX.Element}
  */
-export default function UserProfile({ user, socials }: Props) {
+export default function UserProfile({ user, socials, error }: Props) {
   // error handling
-  if (!user) {
+  if (error === 404) {
     return <Error statusCode={404} message="User not found"/>;
+  } else if (error === 500) {
+    return <Error statusCode={500} message="Server error"/>;
   }
 
   // destructuring user
@@ -79,6 +82,7 @@ export default function UserProfile({ user, socials }: Props) {
 
           <Footer />
         </div>
+
         <Shelf />
       </div>
     </>
@@ -106,8 +110,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   
   if (!userId) {
     // invalid userId
-    return { props: { user: null, socials: [] } };
+    return { props: { error: 404 } };
   }
+
+  // create neo4j session
+  const session = driver.session();
 
   try {
     const result = await session.readTransaction(tx =>
@@ -122,8 +129,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     // more than one record impossible due to userId constraint
     // therefore only check if user requested does not exist
     if (result.records.length === 0) {
+      // close session
+      await session.close();
       // user not found
-      return { props: { user: null, socials: [] } };
+      return { props: { error: 404 } };
     }
 
     const socials = [];
@@ -137,6 +146,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         });
       } else { break; }
     }
+
+    // close session
+    await session.close();
   
     return {
       props: {
@@ -146,7 +158,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
   }
   catch (err) {
+    // close session
+    await session.close();
     // 500: Internal Server Error
-    return { props: { user: null, socials: [] } };
+    return { props: { error: 500 } };
   }
 }

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import session from '../../../neo4j';
+import driver from '../../../neo4j';
 
 export default async function handler(
   req: NextApiRequest,
@@ -23,6 +23,9 @@ export default async function handler(
     return res.status(400).end();
   }
 
+  // create neo4j session
+  const session = driver.session();
+
   try {
     const result = await session.readTransaction(tx =>
       tx.run(
@@ -35,7 +38,10 @@ export default async function handler(
     // check if user has not made any accounts
     if (result.records.length === 0) {
       // 404: Resource Not Found
-      return res.status(404).end();
+      res.status(404).end();
+      // close session after error
+      await session.close();
+      return;
     }
 
     const socials = [];
@@ -49,10 +55,14 @@ export default async function handler(
   
     // 200: OK
     res.status(200).json(socials);
+    // close session after transaction
+    await session.close();
   }
   catch (err) {
     // 500: Internal Server Error
     res.status(500).end();
+    // close session after error
+    await session.close();
   }
 
 }
