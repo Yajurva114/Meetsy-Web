@@ -6,6 +6,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
 
+  // https://meetsy-alpha.vercel.app/api/social/get?userId=yaj456&API_TOKEN=ZpzDou4zDidsLmqRv4hw6lkhjgWcO6zMOYvfqGg
+
   const { userId, API_TOKEN } = req.query;
   
   if (API_TOKEN !== process.env.API_TOKEN) {

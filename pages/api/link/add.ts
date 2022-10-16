@@ -20,9 +20,8 @@ export default async function handler(
   }
 
   const link = req.body as LinkEdge;
-  console.log(link.timestamp);
   // check if link conforms to schema
-  if (!link.userId1 || !link.userId2 || !link.timestamp || !link.location) {
+  if (!link.userId1 || !link.userId2 || !link.timestamp) {
     // 400: Bad Request
     return res.status(400).end();
   }
@@ -37,7 +36,7 @@ export default async function handler(
          MATCH (u2:User {userId: $userId2})
          CREATE (u1)-[:LINK {timestamp: $timestamp, location: $location}]->(u2)
          SET u1.links = u1.links + 1, u2.links = u2.links + 1`,
-        { userId1: link.userId1, userId2: link.userId2, timestamp: link.timestamp, location: link.location }
+        { userId1: link.userId1, userId2: link.userId2, timestamp: link.timestamp }
       )
     );
 

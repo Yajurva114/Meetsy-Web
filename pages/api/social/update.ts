@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import driver from '../../../neo4j';
+import driver from '../../../neo4j'
 
 type UpdateObj = {
   userId: string,
