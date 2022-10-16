@@ -6,7 +6,7 @@ export default function Header() {
     <header className="flex items-center w-screen justify-between border-b-4 border-gray-100 py-4 px-6">
       <div className="flex items-center gap-x-1">
         <Image src={logo} alt="Link Logo" width={35} height={35} />
-        <h1>Link</h1>
+        <h1>Meetsy</h1>
       </div>
       <button className="px-5 py-2 bg-gradient-to-r from-blue-500 to-teal-500 rounded-full">
         <a href="https://apps.apple.com/in/app/snapchat/id447188370" target="_blank" rel="noreferrer">
