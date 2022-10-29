@@ -56,11 +56,11 @@ export default function UserProfile({ user, socials, error }: Props) {
   return (
     <>
       <Head>
-        <title>Link | Profile</title>
-        <meta name="description" content="A Link User Profile Page" />
+        <title>Meetsy | Profile</title>
+        <meta name="description" content="A Meetsy User Profile Page" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-        <meta name="keywords" content="Link, User Profile, QR Code, Social Media Accounts"></meta>
-        <meta name="author" content="Link"></meta>
+        <meta name="keywords" content="Meetsy, User Profile, QR Code, Social Media Accounts"></meta>
+        <meta name="author" content="Meetsy"></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

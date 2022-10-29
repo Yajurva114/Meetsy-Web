@@ -1,8 +1,8 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and written in Typescript.
 
-# Link
+# Meetsy
 
-Link is a social networking platform enabling users to share their internet presence instantly. The website offers dynamic endpoints enabling Link's functionality. Every user has his/her unique link address given by https://link-topaz.vercel.app/{_id} where the _id is a unique parameter determined by MongoDB (stored as a object of class ObjectId in the database).
+Meetsy is a social networking platform enabling users to share their internet presence instantly. The website offers dynamic endpoints enabling Meetsy's functionality. Every user has his/her unique link address given by https://link-topaz.vercel.app/{_id} where the _id is a unique parameter determined by MongoDB (stored as a object of class ObjectId in the database).
 
 ### Architecture:
 
@@ -10,9 +10,9 @@ We have opted for a full stack framework (Nextjs) offering support for both our 
 
 ### Deployed on Vercel
 
-Link is currently hosted on a hobby account, free of charge.
+Meetsy is currently hosted on a hobby account, free of charge.
 
-## Link's API
+## Meetsy's API
 
 Our API acts as a middleman for both our fontend and IOS App by communicating directly with the MongoDB database.
 
