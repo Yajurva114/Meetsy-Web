@@ -44,7 +44,7 @@ export default async function handler(
       )
     );
 
-    fetch(`/api/revalidate?userId=${body.userId}&API_TOKEN=${process.env.API_TOKEN}`);
+    fetch(`https://meetsy-alpha.vercel.app/api/revalidate?userId=${body.userId}&API_TOKEN=${process.env.API_TOKEN}`);
 
     // 201: Resource Created
     res.status(201).end();
