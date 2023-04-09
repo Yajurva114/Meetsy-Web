@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import driver from '../../../neo4j'
-import { UserNode } from '../../../types/node';
+import { UserNode } from '../../../types/node'
 
 export default async function handler(
   req: NextApiRequest,
